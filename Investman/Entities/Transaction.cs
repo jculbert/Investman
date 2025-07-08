@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Investman.Entities
 {
-    internal class Transaction
+    public class Transaction
     {
         public required uint id { get; set; }
         public required string date { get; set; }

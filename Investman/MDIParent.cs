@@ -1,4 +1,5 @@
-﻿using Investman.Forms;
+﻿using Investman.Entities;
+using Investman.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,6 +37,12 @@ namespace Investman
             Form childForm = new TransactionsForm(accountName, symbolName);
             childForm.MdiParent = this;
             childForm.Text = "Transactions: " + accountName + " / " + symbolName;
+            childForm.Show();
+        }
+        public void ShowTransaction(Transaction transaction)
+        {
+            Form childForm = new TransactionForm(transaction);
+            childForm.MdiParent = this;
             childForm.Show();
         }
 

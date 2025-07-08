@@ -17,6 +17,7 @@ namespace Investman.Forms
         private readonly HttpClient httpClient = new();
         private readonly string accountName;
         private readonly string symbolName;
+        private List<Transaction> transactions;
 
         public TransactionsForm(string _accountName, string _symbolName)
         {
@@ -107,7 +108,8 @@ namespace Investman.Forms
                 UseColumnTextForLinkValue = true,
             });
 
-            dataGridView1.DataSource = await GetData();
+            transactions = await GetData();
+            dataGridView1.DataSource = transactions;
         }
 
         private async Task<List<Transaction>> GetData()
@@ -128,14 +130,13 @@ namespace Investman.Forms
 
         private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            // Make sure the click is on the button column and not the header
-            //if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewLinkColumn)
-            //{
-            //var row = dataGridView1.Rows[e.RowIndex];
-            //MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
-            //MDIParent parent = (MDIParent)MdiParent;
-            //parent.ShowHoldings(row.Cells["Name"].Value.ToString());
-            //}
+            if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewLinkColumn)
+            {
+                var row = dataGridView1.Rows[e.RowIndex];
+                //MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
+                MDIParent parent = (MDIParent)MdiParent;
+                parent.ShowTransaction(transactions[e.RowIndex]);
+            }
         }
     }
 }

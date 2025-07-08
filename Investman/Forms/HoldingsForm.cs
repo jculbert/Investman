@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Investman.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -108,16 +109,17 @@ namespace Investman
             return JsonSerializer.Deserialize<List<Holding>>(json);
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            // Make sure the click is on the button column and not the header
-            //if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewLinkColumn)
-            //{
-                //var row = dataGridView1.Rows[e.RowIndex];
-                //MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
-                //MDIParent parent = (MDIParent)MdiParent;
-                //parent.ShowHoldings(row.Cells["Name"].Value.ToString());
-            //}
+            if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewLinkColumn)
+            {
+                var row = dataGridView1.Rows[e.RowIndex];
+                if (dataGridView1.Columns[e.ColumnIndex].Name == "Transactions")
+                {
+                    MDIParent parent = (MDIParent)MdiParent;
+                    parent.ShowTransactions(accountName, row.Cells["Symbol"].Value.ToString());
+                }
+            }
         }
     }
 }

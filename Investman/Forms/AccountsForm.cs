@@ -1,3 +1,4 @@
+using Investman.Entities;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Net.Http;
 using System.Text.Json;
@@ -70,7 +71,7 @@ namespace Investman
             parent.ShowHoldings("blart");
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             // Make sure the click is on the button column and not the header
             if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewLinkColumn)

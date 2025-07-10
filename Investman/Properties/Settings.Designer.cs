@@ -25,7 +25,7 @@ namespace Investman.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://macmini2:8050/investmanbackend/api/v1/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://ubuntu1/investmanbackend/api/v1/")]
         public string BaseURL {
             get {
                 return ((string)(this["BaseURL"]));

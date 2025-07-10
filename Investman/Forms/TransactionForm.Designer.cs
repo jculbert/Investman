@@ -30,6 +30,7 @@
         {
             labelTitle = new Label();
             tableLayoutPanel = new TableLayoutPanel();
+            buttonSave = new Button();
             SuspendLayout();
             // 
             // labelTitle
@@ -60,11 +61,22 @@
             tableLayoutPanel.TabIndex = 1;
             tableLayoutPanel.Paint += tableLayoutPanel1_Paint;
             // 
+            // buttonSave
+            // 
+            buttonSave.Location = new Point(0, 401);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(75, 23);
+            buttonSave.TabIndex = 2;
+            buttonSave.Text = "Save";
+            buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
+            // 
             // TransactionForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(433, 637);
+            Controls.Add(buttonSave);
             Controls.Add(tableLayoutPanel);
             Controls.Add(labelTitle);
             Name = "TransactionForm";
@@ -77,5 +89,6 @@
 
         private Label labelTitle;
         private TableLayoutPanel tableLayoutPanel;
+        private Button buttonSave;
     }
 }

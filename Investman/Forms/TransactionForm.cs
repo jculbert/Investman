@@ -1,22 +1,26 @@
-﻿using System;
+﻿using Investman.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Investman.Entities;
-using System.Reflection;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace Investman.Forms
 {
     public partial class TransactionForm : Form
     {
         private readonly Investman.Entities.Transaction transaction;
+        private readonly HttpClient httpClient = new();
 
         public TransactionForm(Investman.Entities.Transaction _transaction)
         {
@@ -26,6 +30,8 @@ namespace Investman.Forms
             labelTitle.Text = "Transaction: " + transaction.account + " / " + transaction.symbol + " / " + transaction.id;
 
             CreateTransactionFields();
+
+            httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -87,6 +93,29 @@ namespace Investman.Forms
                 tableLayoutPanel.Controls.Add(label, 0, row++);
                 tableLayoutPanel.Controls.Add(textBox, 0, row++);
             }
+
+            // Add Save button
+            tableLayoutPanel.Controls.Add(buttonSave, 0, row++);
+        }
+
+        private async void buttonSave_Click(object sender, EventArgs e)
+        {
+            await PutTransaction();
+        }
+
+        private async Task PutTransaction()
+        {
+            var response = await httpClient.PutAsync($"transactions/{transaction.id}/",
+                new StringContent(JsonSerializer.Serialize(transaction), Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Failed to save data.");
+                return; // Ensure all code paths return a value
+            }
+
+            MessageBox.Show("Transaction updated successfully."); // Optional success message
+            Close();
         }
     }
 }

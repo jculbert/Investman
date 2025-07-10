@@ -8,9 +8,9 @@ namespace Investman.Entities
 {
     public class Transaction
     {
-        public required uint id { get; set; }
-        public required string date { get; set; }
-        public required string type { get; set; }
+        public uint id { get; set; }
+        public string date { get; set; }
+        public string type { get; set; }
         public float? quantity { get; set; }
         public float? price { get; set; }
         public float? amount { get; set; }
@@ -22,5 +22,16 @@ namespace Investman.Entities
         public string? account { get; set; }
         public uint? upload_id { get; set; }
         public string? note { get; set; }
+
+        public Transaction(string account, string symbol)
+        {
+            this.account = account;
+            this.symbol = symbol;
+            date = "2020-12-30";
+            type = "DIST_D";
+            quantity = 0;
+            amount = 0;
+            price = 0;
+        }
     }
 }

@@ -3,58 +3,46 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
+using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using TextBox = System.Windows.Forms.TextBox;
 
 namespace Investman.Forms
 {
-    public partial class TransactionForm : Form
+    public partial class SymbolForm : Form
     {
-        private readonly Investman.Entities.Transaction transaction;
+        private readonly Symbol symbol;
         private readonly HttpClient httpClient = new();
 
-        public TransactionForm(Investman.Entities.Transaction _transaction)
+        public SymbolForm(Symbol symbol)
         {
-            transaction = _transaction;
+            this.symbol = symbol;
             InitializeComponent();
             httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
 
-            labelTitle.Text = "Transaction: " + transaction.account + " / " + transaction.symbol + " / " + transaction.id;
+            labelTitle.Text = "Symbol: " + symbol.name;
 
-            CreateTransactionFields();
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
+            CreateSymbolFields();
 
         }
-
-        private void CreateTransactionFields()
+        private void CreateSymbolFields()
         {
-            var properties = typeof(Investman.Entities.Transaction).GetProperties();
+            var properties = typeof(Symbol).GetProperties();
             tableLayoutPanel.RowCount = 2 * properties.Length;
             tableLayoutPanel.ColumnCount = 2;
-            tableLayoutPanel.Dock = DockStyle.Fill;
+            //tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.AutoSize = true;
             tableLayoutPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            tableLayoutPanel.Padding = new Padding(10);
+            //tableLayoutPanel.Padding = new Padding(10);
 
             int row = 0;
             foreach (var prop in properties)
             {
-                // Don't show some fields 
-                if (prop.Name == "id" || prop.Name == "account" || prop.Name == "symbol")
-                    continue;
-
                 // Create label
                 var label = new Label
                 {
@@ -74,7 +62,7 @@ namespace Investman.Forms
                     Font = new Font(Font.FontFamily, 8),
                 };
 
-                if (prop.Name == "note")
+                if (prop.Name == "notes")
                 {
                     textBox.Multiline = true;
                     textBox.Height = 100; // Fixed height for multiline text box
@@ -87,7 +75,7 @@ namespace Investman.Forms
                 }
 
                 // Data binding (optional, for two-way binding)
-                textBox.DataBindings.Add("Text", transaction, prop.Name, true, DataSourceUpdateMode.OnPropertyChanged);
+                textBox.DataBindings.Add("Text", symbol, prop.Name, true, DataSourceUpdateMode.OnPropertyChanged);
 
                 tableLayoutPanel.Controls.Add(label, 0, row++);
                 tableLayoutPanel.Controls.Add(textBox, 0, row++);
@@ -99,22 +87,16 @@ namespace Investman.Forms
 
         private async void buttonSave_Click(object sender, EventArgs e)
         {
-            await PutTransaction();
-        }
-
-        private async Task PutTransaction()
-        {
-            var response = await httpClient.PutAsync($"transactions/{transaction.id}/",
-                new StringContent(JsonSerializer.Serialize(transaction), Encoding.UTF8, "application/json"));
-
-            if (!response.IsSuccessStatusCode)
+            var response = await httpClient.PutAsJsonAsync($"symbols/{symbol.name}/", symbol);
+            if (response.IsSuccessStatusCode)
             {
-                MessageBox.Show("Failed to save data.");
-                return; // Ensure all code paths return a value
+                MessageBox.Show("Symbol updated successfully.");
+                Close();
             }
-
-            MessageBox.Show("Transaction updated successfully."); // Optional success message
-            Close();
+            else
+            {
+                MessageBox.Show("Failed to update symbol: " + response.ReasonPhrase);
+            }
         }
     }
 }

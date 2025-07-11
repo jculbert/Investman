@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Investman.Entities
 {
-    internal class Symbol
+    public class Symbol
     {
         public string name { get; set; }
         public string? description { get; set; }

@@ -25,6 +25,7 @@ namespace Investman
             childForm.Text = "Accounts";
             childForm.Show();
         }
+
         public void ShowHoldings(string accountName)
         {
             Form childForm = new HoldingsForm(accountName);
@@ -32,6 +33,7 @@ namespace Investman
             childForm.Text = "Holdings: " + accountName;
             childForm.Show();
         }
+
         public void ShowTransactions(string accountName, string symbolName)
         {
             Form childForm = new TransactionsForm(accountName, symbolName);
@@ -39,15 +41,24 @@ namespace Investman
             childForm.Text = "Transactions: " + accountName + " / " + symbolName;
             childForm.Show();
         }
+
         public void ShowTransaction(Transaction transaction)
         {
             Form childForm = new TransactionForm(transaction);
             childForm.MdiParent = this;
             childForm.Show();
         }
+
         public void ShowSymbols()
         {
             Form childForm = new SymbolsForm();
+            childForm.MdiParent = this;
+            childForm.Show();
+        }
+
+        public void ShowSymbol(Symbol symbol)
+        {
+            Form childForm = new SymbolForm(symbol);
             childForm.MdiParent = this;
             childForm.Show();
         }

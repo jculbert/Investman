@@ -15,6 +15,7 @@ namespace Investman
     public partial class SymbolsForm : Form
     {
         private readonly HttpClient httpClient = new();
+        private BindingList<Symbol> symbols; 
 
         public SymbolsForm()
         {
@@ -85,22 +86,22 @@ namespace Investman
                 UseColumnTextForLinkValue = true,
             });
 
-            var users = await GetData();
-            dataGridView1.DataSource = users;
+            symbols = await GetData();
+            dataGridView1.DataSource = symbols;
         }
 
-        private async Task<List<Symbol>> GetData()
+        private async Task<BindingList<Symbol>> GetData()
         {
             var response = await httpClient.GetAsync("symbols/");
 
             if (!response.IsSuccessStatusCode)
             {
                 MessageBox.Show("Failed to retrieve data.");
-                return new List<Symbol>();
+                return new BindingList<Symbol>();
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<List<Symbol>>(json);
+            return JsonSerializer.Deserialize<BindingList<Symbol>>(json);
         }
         private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
@@ -108,9 +109,9 @@ namespace Investman
             if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewLinkColumn)
             {
                 var row = dataGridView1.Rows[e.RowIndex];
-                MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
-                //MDIParent parent = (MDIParent)MdiParent;
-                //parent.ShowHoldings(row.Cells["Name"].Value.ToString());
+                //MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
+                MDIParent parent = (MDIParent)MdiParent;
+                parent.ShowSymbol(symbols[e.RowIndex]);
             }
         }
 

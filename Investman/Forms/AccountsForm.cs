@@ -16,6 +16,7 @@ namespace Investman
 
             httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
         }
+
         private async void _Load(object? sender, EventArgs e)
         {
             dataGridView1.AutoGenerateColumns = false;

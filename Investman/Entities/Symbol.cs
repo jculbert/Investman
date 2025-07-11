@@ -15,5 +15,6 @@ namespace Investman.Entities
         public string? last_price_date { get; set; }
         public string? reviewed_date { get; set; }
         public string? review_result { get; set; }
+        public string? notes { get; set; }
     }
 }

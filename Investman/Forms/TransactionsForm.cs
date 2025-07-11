@@ -19,7 +19,7 @@ namespace Investman.Forms
         private readonly HttpClient httpClient = new();
         private readonly string accountName;
         private readonly string symbolName;
-        private List<Transaction> transactions;
+        private BindingList<Transaction> transactions;
 
         public TransactionsForm(string _accountName, string _symbolName)
         {
@@ -114,7 +114,7 @@ namespace Investman.Forms
             dataGridView1.DataSource = transactions;
         }
 
-        private async Task<List<Transaction>> GetData()
+        private async Task<BindingList<Transaction>> GetData()
         {
             Uri uri = new Uri("transactions/?account=" + Uri.EscapeDataString(accountName)
                 + "&symbol=" + Uri.EscapeDataString(symbolName), UriKind.Relative);
@@ -123,16 +123,16 @@ namespace Investman.Forms
             if (!response.IsSuccessStatusCode)
             {
                 MessageBox.Show("Failed to retrieve data.");
-                return new List<Transaction>();
+                return new BindingList<Transaction>();
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<List<Transaction>>(json);
+            return JsonSerializer.Deserialize<BindingList<Transaction>>(json);
         }
 
         private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewLinkColumn)
+            if (e.RowIndex >= 0)
             {
                 var row = dataGridView1.Rows[e.RowIndex];
                 Transaction transaction = transactions[e.RowIndex];
@@ -163,7 +163,7 @@ namespace Investman.Forms
                 return; // Ensure all code paths return a value
             }
 
-            MessageBox.Show("Transaction created successfully."); // Optional success message
+            //MessageBox.Show("Transaction created successfully."); // Optional success message
 
             var json = await response.Content.ReadAsStringAsync();
             transaction = JsonSerializer.Deserialize<Transaction>(json);
@@ -189,7 +189,7 @@ namespace Investman.Forms
                 return; // Ensure all code paths return a value
             }
 
-            MessageBox.Show("Transaction deleted successfully."); // Optional success message
+            //MessageBox.Show("Transaction deleted successfully."); // Optional success message
             // Refresh the data grid view
             //transactions = await GetData();
             //dataGridView1.DataSource = transactions;

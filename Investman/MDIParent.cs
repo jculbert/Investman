@@ -45,6 +45,17 @@ namespace Investman
             childForm.MdiParent = this;
             childForm.Show();
         }
+        public void ShowSymbols()
+        {
+            Form childForm = new SymbolsForm();
+            childForm.MdiParent = this;
+            childForm.Show();
+        }
+
+        private void symbolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowSymbols();
+        }
 
         private void ShowNewForm(object sender, EventArgs e)
         {

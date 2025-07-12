@@ -6,8 +6,9 @@ using System.Data;
 using System.Data.Common;
 using System.Drawing;
 using System.Linq;
-using System.Net.Http.Json;
+//using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows.Forms;
@@ -87,7 +88,9 @@ namespace Investman.Forms
 
         private async void buttonSave_Click(object sender, EventArgs e)
         {
-            var response = await httpClient.PutAsJsonAsync($"symbols/{symbol.name}/", symbol);
+            //var response = await httpClient.PutAsJsonAsync($"symbols/{symbol.name}/", symbol);
+            var response = await httpClient.PutAsync($"symbols/{symbol.name}/",
+                new StringContent(JsonSerializer.Serialize(symbol), Encoding.UTF8, "application/json"));
             if (response.IsSuccessStatusCode)
             {
                 MessageBox.Show("Symbol updated successfully.");

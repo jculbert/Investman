@@ -56,6 +56,13 @@ namespace Investman
             childForm.Show();
         }
 
+        public void ShowUploads()
+        {
+            Form childForm = new UploadsForm();
+            childForm.MdiParent = this;
+            childForm.Show();
+        }
+
         public void ShowSymbol(Symbol symbol)
         {
             Form childForm = new SymbolForm(symbol);
@@ -66,6 +73,11 @@ namespace Investman
         private void symbolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowSymbols();
+        }
+
+        private void uploadsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowUploads();
         }
 
         private void ShowNewForm(object sender, EventArgs e)

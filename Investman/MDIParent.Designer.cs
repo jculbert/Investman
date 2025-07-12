@@ -73,6 +73,7 @@
             statusStrip = new StatusStrip();
             toolStripStatusLabel = new ToolStripStatusLabel();
             toolTip = new ToolTip(components);
+            uploadsToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             toolStrip.SuspendLayout();
             statusStrip.SuspendLayout();
@@ -91,7 +92,7 @@
             // 
             // fileMenu
             // 
-            fileMenu.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, toolStripSeparator3, symbolsToolStripMenuItem, toolStripSeparator5, exitToolStripMenuItem });
+            fileMenu.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, toolStripSeparator3, symbolsToolStripMenuItem, uploadsToolStripMenuItem, toolStripSeparator5, exitToolStripMenuItem });
             fileMenu.ImageTransparentColor = SystemColors.ActiveBorder;
             fileMenu.Name = "fileMenu";
             fileMenu.Size = new Size(37, 20);
@@ -397,6 +398,13 @@
             toolStripStatusLabel.Size = new Size(39, 17);
             toolStripStatusLabel.Text = "Status";
             // 
+            // uploadsToolStripMenuItem
+            // 
+            uploadsToolStripMenuItem.Name = "uploadsToolStripMenuItem";
+            uploadsToolStripMenuItem.Size = new Size(180, 22);
+            uploadsToolStripMenuItem.Text = "Uploads";
+            uploadsToolStripMenuItem.Click += uploadsToolStripMenuItem_Click;
+            // 
             // MDIParent
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -466,6 +474,7 @@
         private System.Windows.Forms.ToolTip toolTip;
         private ToolStripButton newToolStripButton;
         private ToolStripMenuItem symbolsToolStripMenuItem;
+        private ToolStripMenuItem uploadsToolStripMenuItem;
     }
 }
 

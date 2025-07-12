@@ -62,6 +62,12 @@ namespace Investman
             childForm.MdiParent = this;
             childForm.Show();
         }
+        public void ShowUpload(int id)
+        {
+            Form childForm = new UploadForm(id);
+            childForm.MdiParent = this;
+            childForm.Show();
+        }
 
         public void ShowSymbol(Symbol symbol)
         {

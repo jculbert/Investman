@@ -15,6 +15,7 @@ namespace Investman.Forms
     public partial class UploadsForm : Form
     {
         private readonly HttpClient httpClient = new();
+        private BindingList<Upload> uploads;
 
         public UploadsForm()
         {
@@ -23,6 +24,7 @@ namespace Investman.Forms
 
             httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
         }
+
         private async void _Load(object? sender, EventArgs e)
         {
             dataGridView1.AutoGenerateColumns = false;
@@ -74,22 +76,22 @@ namespace Investman.Forms
                 UseColumnTextForLinkValue = true,
             });
 
-            var uploads = await GetData();
+            uploads = await GetData();
             dataGridView1.DataSource = uploads;
         }
 
-        private async Task<List<Upload>> GetData()
+        private async Task<BindingList<Upload>> GetData()
         {
             var response = await httpClient.GetAsync("uploads/");
 
             if (!response.IsSuccessStatusCode)
             {
                 MessageBox.Show("Failed to retrieve data.");
-                return new List<Upload>();
+                return new BindingList<Upload>();
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<List<Upload>>(json);
+            return JsonSerializer.Deserialize<BindingList<Upload>>(json);
         }
 
         private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
@@ -97,10 +99,10 @@ namespace Investman.Forms
             // Make sure the click is on the button column and not the header
             if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex] is DataGridViewLinkColumn)
             {
-                var row = dataGridView1.Rows[e.RowIndex];
+                //var row = dataGridView1.Rows[e.RowIndex];
                 //MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
                 MDIParent parent = (MDIParent)MdiParent;
-                parent.ShowHoldings(row.Cells["Name"].Value.ToString());
+                parent.ShowUpload(uploads[e.RowIndex].id);
             }
         }
     }

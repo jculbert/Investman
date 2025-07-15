@@ -19,10 +19,20 @@ namespace Investman
         public MDIParent()
         {
             InitializeComponent();
+            tabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControl.DrawItem += TabControl_DrawItem;
+            tabControl.MouseDown += TabControl_MouseDown;
 
             Form childForm = new AccountsForm();
             childForm.MdiParent = this;
             childForm.Text = "Accounts";
+
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+            tabControl.TabPages[0].Text = childForm.Text;
+            tabControl.TabPages[0].Controls.Add(childForm);
+
             childForm.Show();
         }
 
@@ -60,7 +70,13 @@ namespace Investman
         {
             Form childForm = new UploadsForm();
             childForm.MdiParent = this;
+            childForm.Dock = DockStyle.Fill;
+
+            var tabPage = new TabPage(childForm.Text);
+            tabPage.Controls.Add(childForm);
+            tabControl.TabPages.Add(tabPage);
             childForm.Show();
+            tabControl.SelectedTab = tabPage;
         }
         public void ShowUpload(int id)
         {
@@ -168,6 +184,68 @@ namespace Investman
             foreach (Form childForm in MdiChildren)
             {
                 childForm.Close();
+            }
+        }
+
+        private void TabControl_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            var tabRect = tabControl.GetTabRect(e.Index);
+            var tabText = tabControl.TabPages[e.Index].Text;
+
+            bool isSelected = (e.Index == tabControl.SelectedIndex);
+
+            // Draw background
+            using (Brush backBrush = new SolidBrush(isSelected ? Color.LightSkyBlue : tabControl.BackColor))
+            {
+                e.Graphics.FillRectangle(backBrush, tabRect);
+            }
+
+            // Draw border for selected tab
+            if (isSelected)
+            {
+                using (Pen borderPen = new Pen(Color.DodgerBlue, 2))
+                {
+                    e.Graphics.DrawRectangle(borderPen, tabRect.X, tabRect.Y, tabRect.Width - 1, tabRect.Height - 1);
+                }
+            }
+
+            // Draw tab text (bold if selected)
+            Font tabFont = isSelected
+                ? new Font(tabControl.Font, FontStyle.Bold)
+                : tabControl.Font;
+            TextRenderer.DrawText(
+                e.Graphics,
+                tabText,
+                tabFont,
+                new Rectangle(tabRect.X + 2, tabRect.Y + 2, tabRect.Width - 20, tabRect.Height - 4),
+                tabControl.ForeColor,
+                TextFormatFlags.Left | TextFormatFlags.VerticalCenter
+            );
+
+            // Draw close button ("X")
+            int x = tabRect.Right - 18;
+            int y = tabRect.Top + (tabRect.Height - 16) / 2;
+            Rectangle closeRect = new Rectangle(x, y, 16, 16);
+            e.Graphics.DrawRectangle(Pens.Gray, closeRect);
+            e.Graphics.DrawString("X", tabControl.Font, Brushes.Black, x + 2, y + 1);
+
+            // Dispose bold font if created
+            if (isSelected)
+                tabFont.Dispose();
+        }
+
+        private void TabControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            for (int i = 0; i < tabControl.TabPages.Count; i++)
+            {
+                Rectangle tabRect = tabControl.GetTabRect(i);
+                Rectangle closeRect = new Rectangle(tabRect.Right - 18, tabRect.Top + (tabRect.Height - 16) / 2, 16, 16);
+
+                if (closeRect.Contains(e.Location))
+                {
+                    tabControl.TabPages.RemoveAt(i);
+                    break;
+                }
             }
         }
     }

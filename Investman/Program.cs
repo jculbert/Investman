@@ -1,3 +1,5 @@
+using Investman.Forms;
+
 namespace Investman
 {
     internal static class Program
@@ -12,6 +14,7 @@ namespace Investman
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new MDIParent());
+            //Application.Run(new TabForm());
         }
     }
 }

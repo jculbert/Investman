@@ -12,17 +12,14 @@ using System.Windows.Forms;
 
 namespace Investman.Forms
 {
-    public partial class UploadsForm : Form
+    public partial class UploadsForm : BaseForm
     {
-        private readonly HttpClient httpClient = new();
-        private BindingList<Upload> uploads;
+        private BindingList<Upload>? uploads;
 
         public UploadsForm()
         {
             InitializeComponent();
             Load += _Load;
-
-            httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
         }
 
         private async void _Load(object? sender, EventArgs e)

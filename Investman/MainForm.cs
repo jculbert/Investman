@@ -12,19 +12,19 @@ using System.Windows.Forms;
 
 namespace Investman
 {
-    public partial class MDIParent : Form
+    public partial class MainForm : Form
     {
         private int childFormNumber = 0;
 
-        public MDIParent()
+        public MainForm()
         {
             InitializeComponent();
             tabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControl.DrawItem += TabControl_DrawItem;
             tabControl.MouseDown += TabControl_MouseDown;
 
-            Form childForm = new AccountsForm();
-            childForm.MdiParent = this;
+            BaseForm childForm = new AccountsForm();
+            childForm.mainForm = this;
             childForm.Text = "Accounts";
 
             childForm.TopLevel = false;
@@ -38,38 +38,50 @@ namespace Investman
 
         public void ShowHoldings(string accountName)
         {
-            Form childForm = new HoldingsForm(accountName);
-            childForm.MdiParent = this;
-            childForm.Text = "Holdings: " + accountName;
-            childForm.Show();
+            BaseForm childForm = new HoldingsForm(accountName);
+            ShowNewForm(childForm);
         }
 
         public void ShowTransactions(string accountName, string symbolName)
         {
-            Form childForm = new TransactionsForm(accountName, symbolName);
-            childForm.MdiParent = this;
-            childForm.Text = "Transactions: " + accountName + " / " + symbolName;
-            childForm.Show();
+            BaseForm childForm = new TransactionsForm(accountName, symbolName);
+            ShowNewForm(childForm);
         }
 
         public void ShowTransaction(Transaction transaction)
         {
-            Form childForm = new TransactionForm(transaction);
-            childForm.MdiParent = this;
-            childForm.Show();
+            BaseForm childForm = new TransactionForm(transaction);
+            ShowNewForm(childForm);
         }
 
         public void ShowSymbols()
         {
-            Form childForm = new SymbolsForm();
-            childForm.MdiParent = this;
-            childForm.Show();
+            BaseForm childForm = new SymbolsForm();
+            ShowNewForm(childForm);
         }
 
         public void ShowUploads()
         {
-            Form childForm = new UploadsForm();
+            BaseForm childForm = new UploadsForm();
+            ShowNewForm(childForm);
+        }
+
+        public void ShowUpload(int id)
+        {
+            BaseForm childForm = new UploadForm(id);
+            ShowNewForm(childForm);
+        }
+
+        public void ShowSymbol(Symbol symbol)
+        {
+            BaseForm childForm = new SymbolForm(symbol);
+            ShowNewForm(childForm);
+        }
+
+        private void ShowNewForm(BaseForm childForm)
+        {
             childForm.MdiParent = this;
+            childForm.mainForm = this;
             childForm.Dock = DockStyle.Fill;
 
             var tabPage = new TabPage(childForm.Text);
@@ -77,19 +89,6 @@ namespace Investman
             tabControl.TabPages.Add(tabPage);
             childForm.Show();
             tabControl.SelectedTab = tabPage;
-        }
-        public void ShowUpload(int id)
-        {
-            Form childForm = new UploadForm(id);
-            childForm.MdiParent = this;
-            childForm.Show();
-        }
-
-        public void ShowSymbol(Symbol symbol)
-        {
-            Form childForm = new SymbolForm(symbol);
-            childForm.MdiParent = this;
-            childForm.Show();
         }
 
         private void symbolsToolStripMenuItem_Click(object sender, EventArgs e)

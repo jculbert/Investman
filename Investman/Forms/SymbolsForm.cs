@@ -1,4 +1,5 @@
 ﻿using Investman.Entities;
+using Investman.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,9 +13,8 @@ using System.Windows.Forms;
 
 namespace Investman
 {
-    public partial class SymbolsForm : Form
+    public partial class SymbolsForm : BaseForm
     {
-        private readonly HttpClient httpClient = new();
         private BindingList<Symbol> symbols; 
 
         public SymbolsForm()
@@ -22,8 +22,6 @@ namespace Investman
             InitializeComponent();
 
             Load += _Load;
-
-            httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
         }
 
         private async void _Load(object? sender, EventArgs e)
@@ -110,8 +108,7 @@ namespace Investman
             {
                 var row = dataGridView1.Rows[e.RowIndex];
                 //MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
-                MDIParent parent = (MDIParent)MdiParent;
-                parent.ShowSymbol(symbols[e.RowIndex]);
+                mainForm.ShowSymbol(symbols[e.RowIndex]);
             }
         }
 

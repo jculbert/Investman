@@ -88,6 +88,7 @@
             Controls.Add(tableLayoutPanel1);
             Controls.Add(buttonSave);
             Controls.Add(labelTitle);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "SymbolForm";
             Text = "SymbolForm";
             ResumeLayout(false);

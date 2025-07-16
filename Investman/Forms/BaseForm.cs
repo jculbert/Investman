@@ -13,12 +13,12 @@ namespace Investman.Forms
     public partial class BaseForm : Form
     {
         protected readonly HttpClient httpClient = new();
+        public MainForm mainForm;
 
         public BaseForm()
         {
             InitializeComponent();
             httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
-
         }
     }
 }

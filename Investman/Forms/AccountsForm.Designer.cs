@@ -50,6 +50,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(dataGridView1);
+            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Name = "AccountsForm";
             Text = "Accounts";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

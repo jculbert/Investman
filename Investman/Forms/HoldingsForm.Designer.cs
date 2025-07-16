@@ -48,6 +48,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(dataGridView1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "HoldingsForm";
             Text = "Holdings";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

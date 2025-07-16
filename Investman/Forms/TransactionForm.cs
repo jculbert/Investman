@@ -17,17 +17,14 @@ using TextBox = System.Windows.Forms.TextBox;
 
 namespace Investman.Forms
 {
-    public partial class TransactionForm : Form
+    public partial class TransactionForm : BaseForm
     {
         private readonly Investman.Entities.Transaction transaction;
-        private readonly HttpClient httpClient = new();
 
         public TransactionForm(Investman.Entities.Transaction _transaction)
         {
             transaction = _transaction;
             InitializeComponent();
-            httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
-
             labelTitle.Text = "Transaction: " + transaction.account + " / " + transaction.symbol + " / " + transaction.id;
 
             CreateTransactionFields();

@@ -1,6 +1,6 @@
 ﻿namespace Investman.Forms
 {
-    partial class UploadsForm : BaseForm
+    partial class UploadsForm
     {
         /// <summary>
         /// Required designer variable.

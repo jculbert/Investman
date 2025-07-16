@@ -1,20 +1,17 @@
 using Investman.Entities;
+using Investman.Forms;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Net.Http;
 using System.Text.Json;
 
 namespace Investman
 {
-    public partial class AccountsForm : Form
+    public partial class AccountsForm : BaseForm
     {
-        private readonly HttpClient httpClient = new();
-
         public AccountsForm()
         {
             InitializeComponent();
             Load += _Load;
-
-            httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
         }
 
         private async void _Load(object? sender, EventArgs e)
@@ -68,7 +65,7 @@ namespace Investman
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            MDIParent parent = (MDIParent)MdiParent;
+            MainForm parent = (MainForm)MdiParent;
             parent.ShowHoldings("blart");
         }
 
@@ -79,8 +76,7 @@ namespace Investman
             {
                 var row = dataGridView1.Rows[e.RowIndex];
                 //MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
-                MDIParent parent = (MDIParent)MdiParent;
-                parent.ShowHoldings(row.Cells["Name"].Value.ToString());
+                mainForm.ShowHoldings(row.Cells["Name"].Value.ToString());
             }
         }
     }

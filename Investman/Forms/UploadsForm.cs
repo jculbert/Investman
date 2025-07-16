@@ -98,8 +98,7 @@ namespace Investman.Forms
             {
                 //var row = dataGridView1.Rows[e.RowIndex];
                 //MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
-                MDIParent parent = (MDIParent)MdiParent;
-                parent.ShowUpload(uploads[e.RowIndex].id);
+                mainForm.ShowUpload(uploads[e.RowIndex].id);
             }
         }
     }

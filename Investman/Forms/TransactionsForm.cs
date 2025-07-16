@@ -14,9 +14,8 @@ using Transaction = Investman.Entities.Transaction;
 
 namespace Investman.Forms
 {
-    public partial class TransactionsForm : Form
+    public partial class TransactionsForm : BaseForm
     {
-        private readonly HttpClient httpClient = new();
         private readonly string accountName;
         private readonly string symbolName;
         private BindingList<Transaction> transactions;
@@ -27,8 +26,6 @@ namespace Investman.Forms
             accountName = _accountName;
             symbolName = _symbolName;
             Load += _Load;
-
-            httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
         }
         private async void _Load(object? sender, EventArgs e)
         {
@@ -139,8 +136,7 @@ namespace Investman.Forms
                 if (dataGridView1.Columns[e.ColumnIndex] is DataGridViewLinkColumn)
                 {
                     // Handle the link click, show transaction details
-                    MDIParent parent = (MDIParent)MdiParent;
-                    parent.ShowTransaction(transaction);
+                    mainForm.ShowTransaction(transaction);
                 }
                 else if (dataGridView1.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                 {
@@ -169,7 +165,7 @@ namespace Investman.Forms
             transaction = JsonSerializer.Deserialize<Transaction>(json);
             transactions.Add(transaction);
 
-            MDIParent parent = (MDIParent)MdiParent;
+            MainForm parent = (MainForm)MdiParent;
             parent.ShowTransaction(transaction);
         }
 

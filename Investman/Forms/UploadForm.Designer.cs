@@ -87,6 +87,7 @@
             Controls.Add(tableLayoutPanel1);
             Controls.Add(buttonSave);
             Controls.Add(labelTitle);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "UploadForm";
             Text = "UploadForm";
             ResumeLayout(false);

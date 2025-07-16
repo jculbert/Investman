@@ -12,17 +12,15 @@ using System.Windows.Forms;
 
 namespace Investman.Forms
 {
-    public partial class UploadForm : Form
+    public partial class UploadForm : BaseForm
     {
         private readonly int id;
         private Upload upload;
-        private readonly HttpClient httpClient = new();
 
         public UploadForm(int id)
         {
             this.id = id;
             InitializeComponent();
-            httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
             Load += _Load;
         }
 

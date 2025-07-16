@@ -15,16 +15,14 @@ using System.Windows.Forms;
 
 namespace Investman.Forms
 {
-    public partial class SymbolForm : Form
+    public partial class SymbolForm : BaseForm
     {
         private readonly Symbol symbol;
-        private readonly HttpClient httpClient = new();
 
         public SymbolForm(Symbol symbol)
         {
             this.symbol = symbol;
             InitializeComponent();
-            httpClient.BaseAddress = new Uri(Properties.Settings.Default.BaseURL);
 
             labelTitle.Text = "Symbol: " + symbol.name;
 

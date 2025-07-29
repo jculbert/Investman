@@ -17,7 +17,7 @@ using TextBox = System.Windows.Forms.TextBox;
 
 namespace Investman.Forms
 {
-    public partial class TransactionForm : BaseForm
+    public partial class TransactionForm : BaseForm, ISaveable
     {
         private readonly Investman.Entities.Transaction transaction;
 
@@ -94,12 +94,7 @@ namespace Investman.Forms
             //tableLayoutPanel.Controls.Add(buttonSave, 0, row++);
         }
 
-        private async void buttonSave_Click(object sender, EventArgs e)
-        {
-            await PutTransaction();
-        }
-
-        private async Task PutTransaction()
+        public async void Save()
         {
             var response = await httpClient.PutAsync($"transactions/{transaction.id}/",
                 new StringContent(JsonSerializer.Serialize(transaction), Encoding.UTF8, "application/json"));

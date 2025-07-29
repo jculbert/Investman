@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Investman.Forms
 {
-    public partial class UploadsForm : BaseForm
+    public partial class UploadsForm : BaseForm, IAddable
     {
         private BindingList<Upload>? uploads;
 
@@ -100,6 +100,10 @@ namespace Investman.Forms
                 //MessageBox.Show($"Button clicked on row {row.Cells["Name"].Value}");
                 mainForm.ShowUpload(uploads[e.RowIndex].id);
             }
+        }
+
+        public void Add()
+        {
         }
     }
 }

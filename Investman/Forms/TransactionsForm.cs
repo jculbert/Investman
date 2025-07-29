@@ -14,7 +14,7 @@ using Transaction = Investman.Entities.Transaction;
 
 namespace Investman.Forms
 {
-    public partial class TransactionsForm : BaseForm
+    public partial class TransactionsForm : BaseForm, IAddable
     {
         private readonly string accountName;
         private readonly string symbolName;
@@ -147,29 +147,6 @@ namespace Investman.Forms
             }
         }
 
-        private async void buttonAdd_Click(object sender, EventArgs e)
-        {
-            Transaction transaction = new Transaction(accountName, symbolName);
-
-            var response = await httpClient.PostAsync($"transactions/",
-                new StringContent(JsonSerializer.Serialize(transaction), Encoding.UTF8, "application/json"));
-
-            if (!response.IsSuccessStatusCode)
-            {
-                MessageBox.Show("Failed to create transaction.");
-                return; // Ensure all code paths return a value
-            }
-
-            //MessageBox.Show("Transaction created successfully."); // Optional success message
-
-            var json = await response.Content.ReadAsStringAsync();
-            transaction = JsonSerializer.Deserialize<Transaction>(json);
-            transactions.Add(transaction);
-
-            MainForm parent = (MainForm)MdiParent;
-            parent.ShowTransaction(transaction);
-        }
-
         private async void DeleteTransaction(Transaction transaction)
         {
             var result = MessageBox.Show("Delete transaction?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -191,6 +168,28 @@ namespace Investman.Forms
             //transactions = await GetData();
             //dataGridView1.DataSource = transactions;
             transactions.Remove(transaction);
+        }
+
+        public async void Add()
+        {
+            Transaction transaction = new Transaction(accountName, symbolName);
+
+            var response = await httpClient.PostAsync($"transactions/",
+                new StringContent(JsonSerializer.Serialize(transaction), Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Failed to create transaction.");
+                return; // Ensure all code paths return a value
+            }
+
+            //MessageBox.Show("Transaction created successfully."); // Optional success message
+
+            var json = await response.Content.ReadAsStringAsync();
+            transaction = JsonSerializer.Deserialize<Transaction>(json);
+            transactions.Add(transaction);
+
+            this.mainForm.ShowTransaction(transaction);
         }
     }
 }

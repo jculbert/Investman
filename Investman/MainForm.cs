@@ -262,17 +262,44 @@ namespace Investman
                 return;
             }
 
-            // Assume the first control is your child form
-            var childForm = selectedTab.Controls[0] as BaseForm;
-            if (childForm is UploadsForm || childForm is TransactionsForm)
+            // Assume the first control is the child form
+            var addableForm = selectedTab.Controls[0] as IAddable;
+            if (addableForm is IAddable)
                 toolStripButtonAdd.Visible = true;
             else
                 toolStripButtonAdd.Visible = false;
 
-            if (childForm is TransactionForm)
+            var saveableForm = selectedTab.Controls[0] as ISaveable;
+            if (saveableForm is ISaveable)
                 toolStripButtonSave.Visible = true;
             else
                 toolStripButtonSave.Visible = false;
+        }
+
+        private void toolStripButtonSave_Click(object sender, EventArgs e)
+        {
+            var selectedTab = tabControl.SelectedTab;
+            if (selectedTab == null || selectedTab.Controls.Count == 0)
+                return; // she impossible
+
+            // Assume the first control is the child form
+            var saveableForm = selectedTab.Controls[0] as ISaveable;
+            if (saveableForm is ISaveable)
+                saveableForm.Save();
+
+            tabControl.TabPages.Remove(selectedTab);
+        }
+
+        private void toolStripButtonAdd_Click(object sender, EventArgs e)
+        {
+            var selectedTab = tabControl.SelectedTab;
+            if (selectedTab == null || selectedTab.Controls.Count == 0)
+                return; // she impossible
+
+            // Assume the first control is the child form
+            var addableForm = selectedTab.Controls[0] as IAddable;
+            if (addableForm is IAddable)
+                addableForm.Add();
         }
     }
 }

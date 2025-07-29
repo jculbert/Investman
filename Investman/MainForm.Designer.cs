@@ -72,12 +72,12 @@
             printPreviewToolStripButton = new ToolStripButton();
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripButtonAdd = new ToolStripButton();
+            toolStripButtonSave = new ToolStripButton();
             statusStrip = new StatusStrip();
             toolStripStatusLabel = new ToolStripStatusLabel();
             toolTip = new ToolTip(components);
             tabControl = new TabControl();
             tabPage1 = new TabPage();
-            toolStripButtonSave = new ToolStripButton();
             menuStrip.SuspendLayout();
             toolStrip.SuspendLayout();
             statusStrip.SuspendLayout();
@@ -402,6 +402,17 @@
             toolStripButtonAdd.Name = "toolStripButtonAdd";
             toolStripButtonAdd.Size = new Size(33, 22);
             toolStripButtonAdd.Text = "Add";
+            toolStripButtonAdd.Click += toolStripButtonAdd_Click;
+            // 
+            // toolStripButtonSave
+            // 
+            toolStripButtonSave.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButtonSave.Image = (Image)resources.GetObject("toolStripButtonSave.Image");
+            toolStripButtonSave.ImageTransparentColor = Color.Magenta;
+            toolStripButtonSave.Name = "toolStripButtonSave";
+            toolStripButtonSave.Size = new Size(35, 22);
+            toolStripButtonSave.Text = "Save";
+            toolStripButtonSave.Click += toolStripButtonSave_Click;
             // 
             // statusStrip
             // 
@@ -439,15 +450,6 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // toolStripButtonSave
-            // 
-            toolStripButtonSave.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripButtonSave.Image = (Image)resources.GetObject("toolStripButtonSave.Image");
-            toolStripButtonSave.ImageTransparentColor = Color.Magenta;
-            toolStripButtonSave.Name = "toolStripButtonSave";
-            toolStripButtonSave.Size = new Size(35, 22);
-            toolStripButtonSave.Text = "Save";
             // 
             // MainForm
             // 

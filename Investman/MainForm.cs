@@ -19,9 +19,13 @@ namespace Investman
         public MainForm()
         {
             InitializeComponent();
+            toolStripButtonAdd.Visible = false;
+            toolStripButtonSave.Visible = false;
+
             tabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControl.DrawItem += TabControl_DrawItem;
             tabControl.MouseDown += TabControl_MouseDown;
+            tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged; // Add this line
 
             BaseForm childForm = new AccountsForm();
             childForm.mainForm = this;
@@ -246,6 +250,29 @@ namespace Investman
                     break;
                 }
             }
+        }
+
+        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get the selected tab page
+            var selectedTab = tabControl.SelectedTab;
+            if (selectedTab == null || selectedTab.Controls.Count == 0)
+            {
+                toolStripButtonAdd.Visible = false;
+                return;
+            }
+
+            // Assume the first control is your child form
+            var childForm = selectedTab.Controls[0] as BaseForm;
+            if (childForm is UploadsForm || childForm is TransactionsForm)
+                toolStripButtonAdd.Visible = true;
+            else
+                toolStripButtonAdd.Visible = false;
+
+            if (childForm is TransactionForm)
+                toolStripButtonSave.Visible = true;
+            else
+                toolStripButtonSave.Visible = false;
         }
     }
 }

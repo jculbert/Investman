@@ -25,6 +25,7 @@ namespace Investman.Forms
             InitializeComponent();
             accountName = _accountName;
             symbolName = _symbolName;
+            Text = "Transactions: " + accountName + " - " + symbolName;
             Load += _Load;
         }
         private async void _Load(object? sender, EventArgs e)

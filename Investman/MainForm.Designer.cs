@@ -71,11 +71,13 @@
             toolStripSeparator1 = new ToolStripSeparator();
             printPreviewToolStripButton = new ToolStripButton();
             toolStripSeparator2 = new ToolStripSeparator();
+            toolStripButtonAdd = new ToolStripButton();
             statusStrip = new StatusStrip();
             toolStripStatusLabel = new ToolStripStatusLabel();
             toolTip = new ToolTip(components);
             tabControl = new TabControl();
             tabPage1 = new TabPage();
+            toolStripButtonSave = new ToolStripButton();
             menuStrip.SuspendLayout();
             toolStrip.SuspendLayout();
             statusStrip.SuspendLayout();
@@ -346,7 +348,7 @@
             // 
             // toolStrip
             // 
-            toolStrip.Items.AddRange(new ToolStripItem[] { newToolStripButton, openToolStripButton, toolStripSeparator1, printPreviewToolStripButton, toolStripSeparator2 });
+            toolStrip.Items.AddRange(new ToolStripItem[] { newToolStripButton, openToolStripButton, toolStripSeparator1, printPreviewToolStripButton, toolStripSeparator2, toolStripButtonAdd, toolStripButtonSave });
             toolStrip.Location = new Point(0, 24);
             toolStrip.Name = "toolStrip";
             toolStrip.Size = new Size(1062, 25);
@@ -392,6 +394,15 @@
             toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new Size(6, 25);
             // 
+            // toolStripButtonAdd
+            // 
+            toolStripButtonAdd.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButtonAdd.Image = (Image)resources.GetObject("toolStripButtonAdd.Image");
+            toolStripButtonAdd.ImageTransparentColor = Color.Magenta;
+            toolStripButtonAdd.Name = "toolStripButtonAdd";
+            toolStripButtonAdd.Size = new Size(33, 22);
+            toolStripButtonAdd.Text = "Add";
+            // 
             // statusStrip
             // 
             statusStrip.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel });
@@ -429,7 +440,16 @@
             tabPage1.Text = "tabPage1";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // MDIParent
+            // toolStripButtonSave
+            // 
+            toolStripButtonSave.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButtonSave.Image = (Image)resources.GetObject("toolStripButtonSave.Image");
+            toolStripButtonSave.ImageTransparentColor = Color.Magenta;
+            toolStripButtonSave.Name = "toolStripButtonSave";
+            toolStripButtonSave.Size = new Size(35, 22);
+            toolStripButtonSave.Text = "Save";
+            // 
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -441,7 +461,7 @@
             IsMdiContainer = true;
             MainMenuStrip = menuStrip;
             Margin = new Padding(4, 3, 4, 3);
-            Name = "MDIParent";
+            Name = "MainForm";
             Text = "MDIParent";
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
@@ -503,6 +523,8 @@
         private ToolStripMenuItem uploadsToolStripMenuItem;
         private TabControl tabControl;
         private TabPage tabPage1;
+        private ToolStripButton toolStripButtonAdd;
+        private ToolStripButton toolStripButtonSave;
     }
 }
 

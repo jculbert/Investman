@@ -28,21 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            labelTitle = new Label();
             tableLayoutPanel = new TableLayoutPanel();
-            buttonSave = new Button();
             SuspendLayout();
-            // 
-            // labelTitle
-            // 
-            labelTitle.AutoSize = true;
-            labelTitle.Dock = DockStyle.Top;
-            labelTitle.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            labelTitle.Location = new Point(0, 0);
-            labelTitle.Name = "labelTitle";
-            labelTitle.Size = new Size(121, 28);
-            labelTitle.TabIndex = 0;
-            labelTitle.Text = "Transaction";
             // 
             // tableLayoutPanel
             // 
@@ -61,24 +48,12 @@
             tableLayoutPanel.TabIndex = 1;
             tableLayoutPanel.Paint += tableLayoutPanel1_Paint;
             // 
-            // buttonSave
-            // 
-            buttonSave.Location = new Point(0, 401);
-            buttonSave.Name = "buttonSave";
-            buttonSave.Size = new Size(75, 23);
-            buttonSave.TabIndex = 2;
-            buttonSave.Text = "Save";
-            buttonSave.UseVisualStyleBackColor = true;
-            buttonSave.Click += buttonSave_Click;
-            // 
             // TransactionForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(433, 637);
-            Controls.Add(buttonSave);
             Controls.Add(tableLayoutPanel);
-            Controls.Add(labelTitle);
             Name = "TransactionForm";
             Text = "TransactionForm";
             ResumeLayout(false);
@@ -86,9 +61,6 @@
         }
 
         #endregion
-
-        private Label labelTitle;
         private TableLayoutPanel tableLayoutPanel;
-        private Button buttonSave;
     }
 }

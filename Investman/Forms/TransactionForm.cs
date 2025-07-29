@@ -25,7 +25,7 @@ namespace Investman.Forms
         {
             transaction = _transaction;
             InitializeComponent();
-            labelTitle.Text = "Transaction: " + transaction.account + " / " + transaction.symbol + " / " + transaction.id;
+            Text = "Transaction: " + transaction.account + " / " + transaction.symbol + " / " + transaction.id;
 
             CreateTransactionFields();
         }
@@ -91,7 +91,7 @@ namespace Investman.Forms
             }
 
             // Add Save button
-            tableLayoutPanel.Controls.Add(buttonSave, 0, row++);
+            //tableLayoutPanel.Controls.Add(buttonSave, 0, row++);
         }
 
         private async void buttonSave_Click(object sender, EventArgs e)

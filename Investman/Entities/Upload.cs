@@ -13,6 +13,7 @@ namespace Investman.Entities
         public string? file_name { get; set; }
         public int? num_transactions { get; set; }
         public string? result { get; set; }
+        public string? notes { get; set; }
         public string? content { get; set; }
     }
 }

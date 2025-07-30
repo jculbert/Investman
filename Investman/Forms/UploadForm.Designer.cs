@@ -30,8 +30,6 @@
         {
             tableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel1 = new TableLayoutPanel();
-            buttonSave = new Button();
-            labelTitle = new Label();
             SuspendLayout();
             // 
             // tableLayoutPanel
@@ -39,11 +37,11 @@
             tableLayoutPanel.ColumnCount = 2;
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.Location = new Point(3, 32);
+            tableLayoutPanel.Location = new Point(0, 12);
             tableLayoutPanel.Name = "tableLayoutPanel";
             tableLayoutPanel.RowCount = 1;
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.Size = new Size(200, 100);
+            tableLayoutPanel.Size = new Size(228, 785);
             tableLayoutPanel.TabIndex = 8;
             // 
             // tableLayoutPanel1
@@ -59,46 +57,21 @@
             tableLayoutPanel1.Size = new Size(8, 8);
             tableLayoutPanel1.TabIndex = 7;
             // 
-            // buttonSave
-            // 
-            buttonSave.Location = new Point(3, 138);
-            buttonSave.Name = "buttonSave";
-            buttonSave.Size = new Size(75, 23);
-            buttonSave.TabIndex = 6;
-            buttonSave.Text = "Save";
-            buttonSave.UseVisualStyleBackColor = true;
-            // 
-            // labelTitle
-            // 
-            labelTitle.AutoSize = true;
-            labelTitle.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelTitle.Location = new Point(3, 1);
-            labelTitle.Name = "labelTitle";
-            labelTitle.Size = new Size(55, 28);
-            labelTitle.TabIndex = 5;
-            labelTitle.Text = "Title";
-            // 
             // UploadForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(818, 604);
+            ClientSize = new Size(859, 842);
             Controls.Add(tableLayoutPanel);
             Controls.Add(tableLayoutPanel1);
-            Controls.Add(buttonSave);
-            Controls.Add(labelTitle);
-            FormBorderStyle = FormBorderStyle.None;
             Name = "UploadForm";
             Text = "UploadForm";
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private TableLayoutPanel tableLayoutPanel;
         private TableLayoutPanel tableLayoutPanel1;
-        private Button buttonSave;
-        private Label labelTitle;
     }
 }

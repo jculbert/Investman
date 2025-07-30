@@ -51,7 +51,7 @@ namespace Investman.Forms
             tableLayoutPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             //tableLayoutPanel.Padding = new Padding(10);
 
-            labelTitle.Text = "Upload: " + id;
+            Text = "Upload: " + id;
 
             int row = 0;
             foreach (var prop in properties)
@@ -86,6 +86,14 @@ namespace Investman.Forms
                     textBox.Height = 300; // Fixed height for multiline text box
                     textBox.Width = 700; // Fixed height for multiline text box
                 }
+                else if (prop.Name == "notes")
+                {
+                    textBox.Multiline = true;
+                    textBox.ScrollBars = ScrollBars.Both;
+                    textBox.WordWrap = false;
+                    textBox.Height = 100; // Fixed height for multiline text box
+                    textBox.Width = 700; // Fixed height for multiline text box
+                }
                 else
                 {
                     textBox.Multiline = false;
@@ -98,10 +106,6 @@ namespace Investman.Forms
                 tableLayoutPanel.Controls.Add(label, 0, row++);
                 tableLayoutPanel.Controls.Add(textBox, 0, row++);
             }
-
-            // Add Save button
-            tableLayoutPanel.Controls.Add(buttonSave, 0, row++);
         }
-
     }
 }

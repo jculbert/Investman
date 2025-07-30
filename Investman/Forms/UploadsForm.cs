@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows.Forms;
 
 namespace Investman.Forms
@@ -102,8 +106,43 @@ namespace Investman.Forms
             }
         }
 
-        public void Add()
+        public async void Add()
         {
+            using var openFileDialog = new OpenFileDialog
+            {
+                Filter = "All Files (*.*)|*.*",
+                Title = "Select a file to upload"
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var filePath = openFileDialog.FileName;
+                using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                using var content = new MultipartFormDataContent();
+                var fileContent = new StreamContent(fileStream);
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+                content.Add(fileContent, "file", Path.GetFileName(filePath));
+
+                // Add other form fields if needed:
+                // content.Add(new StringContent("value"), "fieldName");
+
+                var response = await httpClient.PostAsync("uploads/", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("File uploaded successfully.");
+                    // Optionally refresh your uploads list here
+                }
+                else
+                {
+                    MessageBox.Show("File upload failed.");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var upload = JsonSerializer.Deserialize<Upload>(json);
+                uploads.Add(upload);
+
+                this.mainForm.ShowUpload(upload.id);
+            }
         }
     }
 }

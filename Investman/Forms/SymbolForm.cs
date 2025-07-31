@@ -15,16 +15,19 @@ using System.Windows.Forms;
 
 namespace Investman.Forms
 {
-    public partial class SymbolForm : BaseForm
+    public partial class SymbolForm : BaseForm, ISaveable
     {
         private readonly Symbol symbol;
 
         public SymbolForm(Symbol symbol)
         {
             this.symbol = symbol;
+            // Needed for text boxes to handle newlines correctly
+            this.symbol.notes = this.symbol.notes.Replace("\n", "\r\n");
+
             InitializeComponent();
 
-            labelTitle.Text = "Symbol: " + symbol.name;
+            Text = "Symbol: " + symbol.name;
 
             CreateSymbolFields();
         }
@@ -78,14 +81,12 @@ namespace Investman.Forms
                 tableLayoutPanel.Controls.Add(label, 0, row++);
                 tableLayoutPanel.Controls.Add(textBox, 0, row++);
             }
-
-            // Add Save button
-            tableLayoutPanel.Controls.Add(buttonSave, 0, row++);
         }
 
-        private async void buttonSave_Click(object sender, EventArgs e)
+        public async void Save()
         {
-            //var response = await httpClient.PutAsJsonAsync($"symbols/{symbol.name}/", symbol);
+            // Convert line endings back for storage
+            this.symbol.notes = this.symbol.notes.Replace("\r\n", "\n");
             var response = await httpClient.PutAsync($"symbols/{symbol.name}/",
                 new StringContent(JsonSerializer.Serialize(symbol), Encoding.UTF8, "application/json"));
             if (response.IsSuccessStatusCode)

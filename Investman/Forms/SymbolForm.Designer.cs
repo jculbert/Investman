@@ -28,31 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            labelTitle = new Label();
-            buttonSave = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel = new TableLayoutPanel();
             SuspendLayout();
-            // 
-            // labelTitle
-            // 
-            labelTitle.AutoSize = true;
-            labelTitle.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelTitle.Location = new Point(0, 0);
-            labelTitle.Name = "labelTitle";
-            labelTitle.Size = new Size(55, 28);
-            labelTitle.TabIndex = 1;
-            labelTitle.Text = "Title";
-            // 
-            // buttonSave
-            // 
-            buttonSave.Location = new Point(0, 137);
-            buttonSave.Name = "buttonSave";
-            buttonSave.Size = new Size(75, 23);
-            buttonSave.TabIndex = 2;
-            buttonSave.Text = "Save";
-            buttonSave.UseVisualStyleBackColor = true;
-            buttonSave.Click += buttonSave_Click;
             // 
             // tableLayoutPanel1
             // 
@@ -72,7 +50,7 @@
             tableLayoutPanel.ColumnCount = 2;
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.Location = new Point(0, 31);
+            tableLayoutPanel.Location = new Point(0, 3);
             tableLayoutPanel.Name = "tableLayoutPanel";
             tableLayoutPanel.RowCount = 1;
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
@@ -86,18 +64,12 @@
             ClientSize = new Size(480, 699);
             Controls.Add(tableLayoutPanel);
             Controls.Add(tableLayoutPanel1);
-            Controls.Add(buttonSave);
-            Controls.Add(labelTitle);
-            FormBorderStyle = FormBorderStyle.None;
             Name = "SymbolForm";
             Text = "SymbolForm";
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-        private Label labelTitle;
-        private Button buttonSave;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel;
     }

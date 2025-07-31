@@ -48,9 +48,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(dataGridView1);
-            FormBorderStyle = FormBorderStyle.None;
             Name = "SymbolsForm";
-            Text = "SymbolsForm";
+            Text = "Symbols";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }

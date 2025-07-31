@@ -8,11 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows.Forms;
 
 namespace Investman.Forms
 {
-    public partial class UploadForm : BaseForm
+    public partial class UploadForm : BaseForm, ISaveable
     {
         private readonly int id;
         private Upload upload;
@@ -41,7 +42,9 @@ namespace Investman.Forms
         private async void _Load(object? sender, EventArgs e)
         {
             upload = await GetData();
-            upload.content = upload.content.Replace("\n", "\r\n"); // Need this for the textbox
+            // Need this for the textbox
+            upload.content = upload.content.Replace("\n", "\r\n");
+            upload.notes = upload.notes.Replace("\n", "\r\n");
 
             var properties = typeof(Upload).GetProperties();
             tableLayoutPanel.RowCount = 2 * properties.Length;
@@ -83,7 +86,7 @@ namespace Investman.Forms
                     textBox.Multiline = true;
                     textBox.ScrollBars = ScrollBars.Both;
                     textBox.WordWrap = false;
-                    textBox.Height = 300; // Fixed height for multiline text box
+                    textBox.Height = 250; // Fixed height for multiline text box
                     textBox.Width = 700; // Fixed height for multiline text box
                 }
                 else if (prop.Name == "notes")
@@ -91,7 +94,7 @@ namespace Investman.Forms
                     textBox.Multiline = true;
                     textBox.ScrollBars = ScrollBars.Both;
                     textBox.WordWrap = false;
-                    textBox.Height = 100; // Fixed height for multiline text box
+                    textBox.Height = 150; // Fixed height for multiline text box
                     textBox.Width = 700; // Fixed height for multiline text box
                 }
                 else
@@ -106,6 +109,25 @@ namespace Investman.Forms
                 tableLayoutPanel.Controls.Add(label, 0, row++);
                 tableLayoutPanel.Controls.Add(textBox, 0, row++);
             }
+        }
+        
+        public async void Save()
+        {
+            // Convert line endings back for storage
+            upload.content = upload.content.Replace("\r\n", "\n");
+            upload.notes = upload.notes.Replace("\r\n", "\n");
+
+            var response = await httpClient.PutAsync($"uploads/{id}/",
+                new StringContent(JsonSerializer.Serialize(upload), Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Failed to save data.");
+                return; // Ensure all code paths return a value
+            }
+
+            MessageBox.Show("Upload updated successfully."); // Optional success message
+            Close();
         }
     }
 }

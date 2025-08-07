@@ -23,7 +23,8 @@ namespace Investman.Forms
         {
             this.symbol = symbol;
             // Needed for text boxes to handle newlines correctly
-            this.symbol.notes = this.symbol.notes.Replace("\n", "\r\n");
+            if (symbol.notes != null)
+                symbol.notes = this.symbol.notes.Replace("\n", "\r\n");
 
             InitializeComponent();
 
@@ -86,7 +87,8 @@ namespace Investman.Forms
         public async void Save()
         {
             // Convert line endings back for storage
-            this.symbol.notes = this.symbol.notes.Replace("\r\n", "\n");
+            if (symbol.notes != null)
+                symbol.notes = symbol.notes.Replace("\r\n", "\n");
             var response = await httpClient.PutAsync($"symbols/{symbol.name}/",
                 new StringContent(JsonSerializer.Serialize(symbol), Encoding.UTF8, "application/json"));
             if (response.IsSuccessStatusCode)

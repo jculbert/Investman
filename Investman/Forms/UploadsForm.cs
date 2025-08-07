@@ -130,11 +130,11 @@ namespace Investman.Forms
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("File uploaded successfully.");
-                    // Optionally refresh your uploads list here
                 }
                 else
                 {
                     MessageBox.Show("File upload failed.");
+                    return;
                 }
 
                 var json = await response.Content.ReadAsStringAsync();

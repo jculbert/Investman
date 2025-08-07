@@ -43,8 +43,10 @@ namespace Investman.Forms
         {
             upload = await GetData();
             // Need this for the textbox
-            upload.content = upload.content.Replace("\n", "\r\n");
-            upload.notes = upload.notes.Replace("\n", "\r\n");
+            if (upload.content != null)
+                upload.content = upload.content.Replace("\n", "\r\n");
+            if (upload.notes != null)
+                upload.notes = upload.notes.Replace("\n", "\r\n");
 
             var properties = typeof(Upload).GetProperties();
             tableLayoutPanel.RowCount = 2 * properties.Length;
@@ -114,8 +116,10 @@ namespace Investman.Forms
         public async void Save()
         {
             // Convert line endings back for storage
-            upload.content = upload.content.Replace("\r\n", "\n");
-            upload.notes = upload.notes.Replace("\r\n", "\n");
+            if (upload.content != null)
+                upload.content = upload.content.Replace("\r\n", "\n");
+            if (upload.notes != null)
+                upload.notes = upload.notes.Replace("\r\n", "\n");
 
             var response = await httpClient.PutAsync($"uploads/{id}/",
                 new StringContent(JsonSerializer.Serialize(upload), Encoding.UTF8, "application/json"));

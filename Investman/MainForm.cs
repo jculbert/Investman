@@ -15,6 +15,7 @@ namespace Investman
     public partial class MainForm : Form
     {
         private int childFormNumber = 0;
+        private int returnToTabIndex = -1;
 
         public MainForm()
         {
@@ -25,7 +26,7 @@ namespace Investman
             tabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControl.DrawItem += TabControl_DrawItem;
             tabControl.MouseDown += TabControl_MouseDown;
-            tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged; // Add this line
+            tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
 
             BaseForm childForm = new AccountsForm();
             childForm.mainForm = this;
@@ -88,11 +89,17 @@ namespace Investman
             childForm.mainForm = this;
             childForm.Dock = DockStyle.Fill;
 
+            var savedTab = tabControl.SelectedIndex;
+
             var tabPage = new TabPage(childForm.Text);
             tabPage.Controls.Add(childForm);
             tabControl.TabPages.Add(tabPage);
             childForm.Show();
             tabControl.SelectedTab = tabPage;
+
+            // Return to this tab if the child being created gets deleted
+            // before another other tab is selected
+            returnToTabIndex = savedTab;
         }
 
         private void symbolsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -247,6 +254,16 @@ namespace Investman
                 if (closeRect.Contains(e.Location))
                 {
                     tabControl.TabPages.RemoveAt(i);
+
+                    // Restore the returnToTabIndex if set
+                    if (returnToTabIndex >= 0 && returnToTabIndex < tabControl.TabPages.Count)
+                    {
+                        tabControl.SelectedIndex = returnToTabIndex;
+                    }
+                    else if (tabControl.TabPages.Count > 0)
+                    {
+                        tabControl.SelectedIndex = tabControl.TabPages.Count - 1;
+                    }
                     break;
                 }
             }
@@ -254,6 +271,8 @@ namespace Investman
 
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            returnToTabIndex = -1; // Reset returnToTabIndex when a new tab is selected
+
             // Get the selected tab page
             var selectedTab = tabControl.SelectedTab;
             if (selectedTab == null || selectedTab.Controls.Count == 0)

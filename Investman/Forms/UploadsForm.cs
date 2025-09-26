@@ -129,7 +129,7 @@ namespace Investman.Forms
                 var response = await httpClient.PostAsync("uploads/", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("File uploaded successfully.");
+                    //MessageBox.Show("File uploaded successfully.");
                 }
                 else
                 {

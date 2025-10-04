@@ -13,9 +13,11 @@ using System.Windows.Forms;
 
 namespace Investman
 {
-    public partial class HoldingsForm : BaseForm
+    public partial class HoldingsForm : BaseForm, IHideZero
     {
         private readonly string accountName;
+        bool hideZero = true;
+        List<Holding> holdings;
 
         public HoldingsForm(string _accountName)
         {
@@ -86,9 +88,24 @@ namespace Investman
                 UseColumnTextForLinkValue = true,
             });
 
-            List<Holding> holdings = await GetData();
-            // Flatten the list of Holding into a list of HoldingView as required by the DataGridView
-            var flatholdings = holdings.Select(c => new HoldingView(c)).ToList();
+            holdings = await GetData();
+            UpdateView();
+        }
+
+        void UpdateView()
+        {
+            // Initialize the variable with the appropriate type and value
+            List<HoldingView> flatholdings;
+            if (hideZero)
+            {
+                // Filter out holdings with zero quantity
+                flatholdings = holdings.Where(c => c.quantity != 0.0f).Select(c => new HoldingView(c)).ToList();
+            }
+            else
+            {
+                // Show all holdings
+                flatholdings = holdings.Select(c => new HoldingView(c)).ToList();
+            }
             dataGridView1.DataSource = flatholdings;
         }
 
@@ -117,6 +134,17 @@ namespace Investman
                     mainForm.ShowTransactions(accountName, row.Cells["Symbol"].Value.ToString());
                 }
             }
+        }
+
+        public bool IsHideZero()
+        {
+            return hideZero;
+        }
+
+        public void ToggleHideZero()
+        {
+            hideZero = !hideZero;
+            UpdateView();
         }
     }
 }

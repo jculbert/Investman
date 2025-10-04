@@ -50,6 +50,7 @@
             viewMenu = new ToolStripMenuItem();
             toolBarToolStripMenuItem = new ToolStripMenuItem();
             statusBarToolStripMenuItem = new ToolStripMenuItem();
+            hideZeroMenuItem = new ToolStripMenuItem();
             toolsMenu = new ToolStripMenuItem();
             optionsToolStripMenuItem = new ToolStripMenuItem();
             windowsMenu = new ToolStripMenuItem();
@@ -218,7 +219,7 @@
             // 
             // viewMenu
             // 
-            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { toolBarToolStripMenuItem, statusBarToolStripMenuItem });
+            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { toolBarToolStripMenuItem, statusBarToolStripMenuItem, hideZeroMenuItem });
             viewMenu.Name = "viewMenu";
             viewMenu.Size = new Size(44, 20);
             viewMenu.Text = "&View";
@@ -229,7 +230,7 @@
             toolBarToolStripMenuItem.CheckOnClick = true;
             toolBarToolStripMenuItem.CheckState = CheckState.Checked;
             toolBarToolStripMenuItem.Name = "toolBarToolStripMenuItem";
-            toolBarToolStripMenuItem.Size = new Size(126, 22);
+            toolBarToolStripMenuItem.Size = new Size(180, 22);
             toolBarToolStripMenuItem.Text = "&Toolbar";
             toolBarToolStripMenuItem.Click += ToolBarToolStripMenuItem_Click;
             // 
@@ -239,9 +240,15 @@
             statusBarToolStripMenuItem.CheckOnClick = true;
             statusBarToolStripMenuItem.CheckState = CheckState.Checked;
             statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-            statusBarToolStripMenuItem.Size = new Size(126, 22);
+            statusBarToolStripMenuItem.Size = new Size(180, 22);
             statusBarToolStripMenuItem.Text = "&Status Bar";
             statusBarToolStripMenuItem.Click += StatusBarToolStripMenuItem_Click;
+            // 
+            // hideZeroMenuItem
+            // 
+            hideZeroMenuItem.Name = "hideZeroMenuItem";
+            hideZeroMenuItem.Size = new Size(180, 22);
+            hideZeroMenuItem.Text = "Hide Zero";
             // 
             // toolsMenu
             // 
@@ -527,6 +534,7 @@
         private TabPage tabPage1;
         private ToolStripButton toolStripButtonAdd;
         private ToolStripButton toolStripButtonSave;
+        private ToolStripMenuItem hideZeroMenuItem;
     }
 }
 

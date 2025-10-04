@@ -28,6 +28,9 @@ namespace Investman
             tabControl.MouseDown += TabControl_MouseDown;
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
 
+            hideZeroMenuItem.CheckOnClick = true;
+            hideZeroMenuItem.Click += HideZeroMenuItem_Click;
+
             BaseForm childForm = new AccountsForm();
             childForm.mainForm = this;
             childForm.Text = "Accounts";
@@ -39,6 +42,7 @@ namespace Investman
             tabControl.TabPages[0].Controls.Add(childForm);
 
             childForm.Show();
+            UpdateHideZeroMenuItem();
         }
 
         public void ShowHoldings(string accountName)
@@ -100,6 +104,8 @@ namespace Investman
             // Return to this tab if the child being created gets deleted
             // before another other tab is selected
             returnToTabIndex = savedTab;
+
+            UpdateHideZeroMenuItem();
         }
 
         private void symbolsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -293,6 +299,28 @@ namespace Investman
                 toolStripButtonSave.Visible = true;
             else
                 toolStripButtonSave.Visible = false;
+
+            UpdateHideZeroMenuItem();
+         }
+
+        void UpdateHideZeroMenuItem()
+        {
+            var selectedTab = tabControl.SelectedTab;
+            if (selectedTab == null || selectedTab.Controls.Count == 0)
+            {
+                hideZeroMenuItem.Visible = false;
+                return;
+            }
+            var hideZeroForm = selectedTab.Controls[0] as IHideZero;
+            if (hideZeroForm is IHideZero)
+            {
+                hideZeroMenuItem.Visible = true;
+                hideZeroMenuItem.Checked = hideZeroForm.IsHideZero();
+            }
+            else
+            {
+                hideZeroMenuItem.Visible = false;
+            }
         }
 
         private void toolStripButtonSave_Click(object sender, EventArgs e)
@@ -319,6 +347,20 @@ namespace Investman
             var addableForm = selectedTab.Controls[0] as IAddable;
             if (addableForm is IAddable)
                 addableForm.Add();
+        }
+
+        private void HideZeroMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedTab = tabControl.SelectedTab;
+            if (selectedTab == null || selectedTab.Controls.Count == 0)
+                return;
+
+            var hideZeroForm = selectedTab.Controls[0] as IHideZero;
+            if (hideZeroForm != null)
+            {
+                hideZeroForm.ToggleHideZero();
+                hideZeroMenuItem.Checked = hideZeroForm.IsHideZero();
+            }
         }
     }
 }
